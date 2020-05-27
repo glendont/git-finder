@@ -1,39 +1,27 @@
-import React, { Component } from "react";
+import React, { useContext } from "react";
 import Useritem from "./Useritem";
+import Spinner from "../layout/Spinner";
+import GithubContext from "../../context/github/githubContext";
 
-export class Users extends Component {
-  state = {
-    users: [
-      {
-        id: "1",
-        login: "mojombo",
-        avatar_url: "https://avatars0.githubusercontent.com/u/1?v=4",
-        html_url: "https://github.com/mojombo",
-      },
-      {
-        id: "2",
-        login: "glendont",
-        avatar_url: "https://avatars0.githubusercontent.com/u/1?v=4",
-        html_url: "https://github.com/mojombo",
-      },
-      {
-        id: "3",
-        login: "chaiyinn",
-        avatar_url: "https://avatars0.githubusercontent.com/u/1?v=4",
-        html_url: "https://github.com/mojombo",
-      },
-    ],
-  };
-  render() {
-    return (
-      <div style={userStyle}>
-        {this.state.users.map((user) => (
-          <Useritem key={user.id} user={user} />
-        ))}
-      </div>
-    );
-  }
-}
+const Users = () => {
+  const githubContext = useContext(GithubContext);
+
+  const { loading, users } = githubContext; // destructuring
+
+  return (
+    <div>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <div style={userStyle}>
+          {users.map((user) => (
+            <Useritem key={user.id} user={user} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
 const userStyle = {
   display: "grid",
