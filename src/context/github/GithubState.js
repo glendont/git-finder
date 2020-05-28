@@ -8,6 +8,7 @@ import {
   CLEAR_USERS,
   GET_USER,
   GET_REPOS,
+  INIT_USERS,
 } from "../types";
 
 let githubClientId;
@@ -34,6 +35,18 @@ const GithubState = (props) => {
   const [state, dispatch] = useReducer(GithubReducer, initialState);
 
   // Start of functions/actions declarations
+
+  // Initialise landing page
+  const initUsers = async () => {
+    setLoading(true);
+    const res = await axios.get(`https://api.github.com/users?client_id=$
+      {process.env.REACT_APP_GITHUB_CLIENT_ID}&client_secret=$
+      {process.env.REACT_APP_GITHUB_CLIENT_SECRET}`);
+    dispatch({
+      type: INIT_USERS,
+      payload: res.data,
+    });
+  };
 
   // Search Users
   const searchUsers = async (text) => {
@@ -91,6 +104,7 @@ const GithubState = (props) => {
         clearUsers,
         getUser,
         getUserRepos,
+        initUsers,
       }}
     >
       {props.children}

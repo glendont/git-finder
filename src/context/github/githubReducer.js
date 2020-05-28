@@ -4,11 +4,18 @@ import {
   CLEAR_USERS,
   GET_USER,
   GET_REPOS,
+  INIT_USERS,
 } from "../types";
 
 // A reducer is just a function that takes in a state and an action that changes the state
 export default (state, action) => {
   switch (action.type) {
+    case INIT_USERS:
+      return {
+        ...state,
+        users: action.payload,
+        loading: false,
+      };
     case GET_REPOS:
       return {
         ...state,
